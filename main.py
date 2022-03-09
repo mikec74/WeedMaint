@@ -72,6 +72,7 @@ class WeedPhoto(db.Model):
     weed = db.relationship("Weed", backref=db.backref("weed_photos"), lazy=True)
 
 
+db.drop_all()
 db.create_all()
 
 
