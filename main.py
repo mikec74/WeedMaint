@@ -202,7 +202,7 @@ def show_page():
     weed2.weed_common_names.append(marguerite)
 
     bull_daisy = WeedCommonName(
-        common_name="yellow bull daisy",
+        common_name="bull daisy",
         is_primary=False
     )
     weed2.weed_common_names.append(bull_daisy)
