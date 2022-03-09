@@ -72,7 +72,13 @@ class WeedPhoto(db.Model):
     weed = db.relationship("Weed", backref=db.backref("weed_photos"), lazy=True)
 
 
-db.drop_all()
+# Delete all rows from all tables.
+# I tried using db.drop_all() but it always crashed when the application was being deployed.
+# WeedPhoto.query.delete()
+# WeedCommonName.query.delete()
+# Weed.query.delete()
+# PageHeader.query.delete()
+
 db.create_all()
 
 
