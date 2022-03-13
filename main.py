@@ -74,12 +74,15 @@ class WeedPhoto(db.Model):
 
 # Delete all rows from all tables.
 # I tried using db.drop_all() but it always crashed when the application was being deployed.
-# WeedPhoto.query.delete()
-# WeedCommonName.query.delete()
-# Weed.query.delete()
-# PageHeader.query.delete()
+WeedPhoto.query.delete()
+WeedCommonName.query.delete()
+Weed.query.delete()
+PageHeader.query.delete()
 
-db.create_all()
+db.session.commit()
+
+
+# db.create_all()
 
 
 @app.route('/')
@@ -89,158 +92,85 @@ def show_page():
                   "&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
         title="Weed of the Week",
         subtitle="These invasives have to go!",
-        announcement="<strong>IMPORTANT NOTE:</strong> The Palatine Park District is scheduled to mow the "\
-                     "ditch this week. The Park District uses heavy equipment to mow the ditch. For your safety, "\
-                     "do not go into the ditch if the Park District is mowing the ditch."
+        announcement=None
     )
     db.session.add(page_header)
 
     weed1 = Weed(
-        scientific_name="Barbarea vulgaris",
-        description="This plant is easily identified by its clusters of yellow flowers. It is the only plant "\
-                    "that is blooming in the ditch with yellow flowers this week. The plant is around "\
-                    "<strong>two</strong> feet tall.",
-        removal_method="Cut at the base of the main stem. Make sure you cut low enough on the stem to get all of "\
-                       "the flowers. Put the cut plant into a yard waste bag and remove the bag from the premises."\
-                       "</p><p class='weed-text'>Alternatively, you can pull the plant out by the roots. This "\
-                       "method has a greater chance of permanently removing the plant, but it disturbs the soil and "\
-                       "encourages the germination of other weed seeds. If you pull the plant, make sure you put "\
-                       "the entire plant in a yard waste bag and remove the bag from the premises.",
-        comments="This is a biennial from Eurasia.",
-        location_desc="Throughout the ditch, mostly in low-lying areas.",
-        location_map="images/YellowRocket-20220307.png",
-        display_order=0
-    )
-    yellow_rocket = WeedCommonName(
-        common_name="yellow rocket",
-        is_primary=True
-    )
-    weed1.weed_common_names.append(yellow_rocket)
-
-    wintercress = WeedCommonName(
-        common_name="wintercress",
-        is_primary=False
-    )
-    weed1.weed_common_names.append(wintercress)
-
-    herb_barbara = WeedCommonName(
-        common_name="herb barbara",
-        is_primary=False
-    )
-    weed1.weed_common_names.append(herb_barbara)
-
-    rocketcress = WeedCommonName(
-        common_name="rocketcress",
-        is_primary=False
-    )
-    weed1.weed_common_names.append(rocketcress)
-
-    yellow_rocketcress = WeedCommonName(
-        common_name="yellow rocketcress",
-        is_primary=False
-    )
-    weed1.weed_common_names.append(yellow_rocketcress)
-
-    winter_rocket = WeedCommonName(
-        common_name="winter rocket",
-        is_primary=False
-    )
-    weed1.weed_common_names.append(winter_rocket)
-
-    wound_rocket = WeedCommonName(
-        common_name="wound rocket",
-        is_primary=False
-    )
-    weed1.weed_common_names.append(wound_rocket)
-
-    photo1 = WeedPhoto(
-        photo_url="images/YellowRocketInDitch.jpg",
-        caption="Lots of yellow rocket",
-        display_order=2
-    )
-    weed1.weed_photos.append(photo1)
-
-    photo2 = WeedPhoto(
-        photo_url="images/YellowRocketNOT.jpg",
-        caption="This is <strong>NOT</strong> <i>Barbarea vulgaris</i>",
-        display_order=1
-    )
-    weed1.weed_photos.append(photo2)
-
-    db.session.add(weed1)
-    db.session.commit()
-
-    weed2 = Weed(
         scientific_name="Leucanthemum vulgare",
         description="This plant has the typical daisy appearance with white petals and a yellow center. It grows "
-                    "to a height of two feet.",
+                    "to a height of 1 to 3 feet.",
         removal_method="Pull the plant out by the roots. This "
-                       "plant has a strong and deep root system, so you usually will not be able to pull out "
-                       "all of the roots. You may have more luck pulling out more roots when the soil is moist "
+                       "plant has a shallow root system, so you usually can pull out "
+                       "all of the roots. However, it spreads by rhizomes, so some of the rhizomes may snap "
+                       "when you pull the plant out of the ground. You may have more luck pulling out more "
+                       "roots when the soil is moist "
                        "after a rain. When you pull the plant, make sure you put "
                        "the entire plant in a yard waste bag and remove the bag from the premises.",
-        comments="This is a perennial from Eurasia.",
-        location_desc="Along the western edge of the ditch.",
-        location_map="images/YellowRocket-20220307.png",
+        comments="This is a perennial from Eurasia. It is highly invasive and is regulated as an invasive "
+                 "species in 13 states. Each flower can produce up to 200 seeds.",
+        location_desc="Along the western edge of the ditch on the northern part of the property. Also, there "
+                      "are some isolated plants at the south end of the ditch.",
+        location_map="images/OxeyeDaisy-20220313.png",
         display_order=1
     )
     oxeye_daisy = WeedCommonName(
         common_name="oxeye daisy",
         is_primary=True
     )
-    weed2.weed_common_names.append(oxeye_daisy)
+    weed1.weed_common_names.append(oxeye_daisy)
 
     ox_eye_daisy = WeedCommonName(
         common_name="ox-eye daisy",
         is_primary=False
     )
-    weed2.weed_common_names.append(ox_eye_daisy)
+    weed1.weed_common_names.append(ox_eye_daisy)
 
     dog_daisy = WeedCommonName(
         common_name="dog daisy",
         is_primary=False
     )
-    weed2.weed_common_names.append(dog_daisy)
+    weed1.weed_common_names.append(dog_daisy)
 
     marguerite = WeedCommonName(
         common_name="marguerite",
         is_primary=False
     )
-    weed2.weed_common_names.append(marguerite)
+    weed1.weed_common_names.append(marguerite)
 
     bull_daisy = WeedCommonName(
         common_name="bull daisy",
         is_primary=False
     )
-    weed2.weed_common_names.append(bull_daisy)
+    weed1.weed_common_names.append(bull_daisy)
 
     button_daisy = WeedCommonName(
         common_name="button daisy",
         is_primary=False
     )
-    weed2.weed_common_names.append(button_daisy)
+    weed1.weed_common_names.append(button_daisy)
 
     field_daisy = WeedCommonName(
         common_name="field daisy",
         is_primary=False
     )
-    weed2.weed_common_names.append(field_daisy)
+    weed1.weed_common_names.append(field_daisy)
 
     photo3 = WeedPhoto(
         photo_url="images/OxeyeDaisy-2.jpg",
         caption="Oxeye daisy stem has very small leaves",
         display_order=2
     )
-    weed2.weed_photos.append(photo3)
+    weed1.weed_photos.append(photo3)
 
     photo4 = WeedPhoto(
         photo_url="images/OxeyeDaisy-1.jpg",
         caption="The classic daisy look",
         display_order=1
     )
-    weed2.weed_photos.append(photo4)
+    weed1.weed_photos.append(photo4)
 
-    db.session.add(weed2)
+    db.session.add(weed1)
     db.session.commit()
 
     return render_template("index.html")
